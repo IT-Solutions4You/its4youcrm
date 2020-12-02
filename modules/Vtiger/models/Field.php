@@ -96,7 +96,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	//UITYPES for Users module
 	const UITYPE_USER_ACCESS_KEY = 3;
 	const UITYPE_USER_THEME = 31;
-	const UITYPE_USER_picklist = 32;
+	const UITYPE_USER_PICKLIST = 32;
 	const UITYPE_USER_ROLE = 98;
 	const UITYPE_USER_PASSWORD = 98;
 	const UITYPE_USER_REPORTS_TO = 101;
