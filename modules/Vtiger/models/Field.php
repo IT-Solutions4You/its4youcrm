@@ -33,10 +33,80 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	const DISPLAYTYPE_LINEITEM = 5;
 	const DISPLAYTYPE_STARRED = 6;//show on List View and as separate button on Detail View
 	
-	const PRESENCE_ALLWAYS_VISIBLE = 0;//cannot be hidden by user
+	const PRESENCE_ALWAYS_VISIBLE = 0;//cannot be hidden by user
 	const PRESENCE_HIDDEN = 1;
 	const PRESENCE_VISIBLE = 2;//can be hidden by user
 
+	//UITYPES
+	const UITYPE_TEXT = 1;
+	const UITYPE_NAME = 2;
+	const UITYPE_RECORD_NO = 4; //auto increment
+	const UITYPE_DATE = 5;
+	const UITYPE_ACTIVITY_DATE_START = 6;
+	const UITYPE_NUMERIC = 7; //same for float and integer
+	const UITYPE_EMAIL_RECIPIENT_ADDRESS = 8;
+	const UITYPE_PERCENTAGE = 9;
+	const UITYPE_RECORD_RELATION = 10;
+	const UITYPE_PHONE = 11;
+	const UITYPE_FROM_EMAIL = 12;
+	const UITYPE_EMAIL = 13;
+	const UITYPE_TIME = 14;
+	const UITYPE_ROLE_BASED_PICKLIST = 15;
+	const UITYPE_PICKLIST = 16; //non-role based picklist
+	const UITYPE_URL = 17;
+	const UITYPE_FULL_WIDTH_TEXT_AREA = 19;
+	const UITYPE_FAQ = 20;
+	const UITYPE_HALF_WIDTH_TEXT_AREA = 21;
+	const UITYPE_TICKET_TITLE = 22;
+	const UITYPE_DATE_2 = 23;
+	const UITYPE_STREET_ADDRESS = 24;
+	const UITYPE_COUNTER = 25; //e.g. click count & access count
+	const UITYPE_FOLDER_NAME = 26;
+	const UITYPE_DOWNLOAD_TYPE = 27;
+	const UITYPE_FILENAME = 28;
+	const UITYPE_ACTIVITY_SEND_REMINDER = 30;
+	const UITYPE_MULTI_SELECT = 33;
+	const UITYPE_ACCOUNT_REFERENCE = 51;
+	const UITYPE_USER_REFERENCE = 52;//e.g. assigned to
+	const UITYPE_ASSIGNED_TO_PICKLIST = 53;
+	const UITYPE_SALUTATION_OR_FIRSTNAME = 55;
+	const UITYPE_CHECKBOX = 56;
+	const UITYPE_CONTACT = 57;
+	const UITYPE_CAMPAIGN_REFERENCE = 58;
+	const UITYPE_PRODUCT_REFERENCE = 59;
+	const UITYPE_ATTACHMENT = 61;
+	const UITYPE_ACTIVITY_DURATION = 63;
+	const UITYPE_ACTIVITY_PARENT_REFERENCE = 66;
+	const UITYPE_IMAGE = 69;//e.g. product image & contact image
+	const UITYPE_DATE_TIME = 70;
+	const UITYPE_CURRENCY_AMOUNT = 71;
+	const UITYPE_LINEITEMS_CURRENCY_AMOUNT = 72;
+	const UITYPE_ACCOUNT_REFERENCE_2 = 73;
+	const UITYPE_POTENTIAL_REFERENCE = 76;
+	const UITYPE_QUOTES_INVENTORY_MANAGER = 77;
+	const UITYPE_QUOTES_REFERENCE = 78;
+	const UITYPE_SALESORDER_REFERENCE = 80;
+	const UITYPE_VENDOR_REFERENCE = 81;
+	const UITYPE_TAX = 83;
+	const UITYPE_SKYPE = 85;
+	const UITYPE_CURRENCY_CODE = 117;//picklist with currencies
+	const UITYPE_LASTNAME = 255;//last name in contacts and leads
+	const UITYPE_EMAIL_PARENT_RECORD = 357;
+	
+	//UITYPES for Users module
+	const UITYPE_USER_ACCESS_KEY = 3;
+	const UITYPE_USER_THEME = 31;
+	const UITYPE_USER_picklist = 32;
+	const UITYPE_USER_ROLE = 98;
+	const UITYPE_USER_PASSWORD = 98;
+	const UITYPE_USER_REPORTS_TO = 101;
+	const UITYPE_USER_EMAIL = 104;
+	const UITYPE_USER_USERNAME = 106;
+	const UITYPE_USER_STATUS = 115;
+	const UITYPE_USER_END_HOUR = 116;
+	const UITYPE_USER_IS_ADMIN = 156;
+	
+	
 	/**
 	 * Function to get the value of a given property
 	 * @param <String> $propertyName
@@ -157,25 +227,25 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	public function getFieldDataType() {
 		if(!$this->fieldDataType) {
 			$uiType = $this->get('uitype');
-			if($uiType == '69') {
+			if($uiType == self::UITYPE_IMAGE) {
 				$fieldDataType = 'image';
-			} else if($uiType == '26') {
+			} else if($uiType == self::UITYPE_FOLDER_NAME) {
 				$fieldDataType = 'documentsFolder';
-			} else if($uiType == '27') {
+			} else if($uiType == self::UITYPE_DOWNLOAD_TYPE) {
 				$fieldDataType = 'fileLocationType';
-			} else if($uiType == '9') {
+			} else if($uiType == self::UITYPE_PERCENTAGE) {
 				$fieldDataType = 'percentage';
-			} else if($uiType == '28') {
+			} else if($uiType == self::UITYPE_FILENAME) {
 				$fieldDataType = 'documentsFileUpload';
-			} else if($uiType == '83') {
+			} else if($uiType == self::UITYPE_TAX) {
 				$fieldDataType = 'productTax';
-			} else if($uiType == '117') {
+			} else if($uiType == self::UITYPE_CURRENCY_CODE) {
 				$fieldDataType = 'currencyList';
-			} else if($uiType == '55' && stripos($this->getName(), 'salutationtype') !== false) {
+			} else if($uiType == self::UITYPE_SALUTATION_OR_FIRSTNAME && stripos($this->getName(), 'salutationtype') !== false) {
 				$fieldDataType = 'picklist';
-			} else if($uiType == '55' && stripos($this->getName(), 'firstname') !== false) {
+			} else if($uiType == self::UITYPE_SALUTATION_OR_FIRSTNAME && stripos($this->getName(), 'firstname') !== false) {
 				$fieldDataType = 'salutation';
-            } else if($uiType == '55' && stripos($this->getName(), 'roundrobin_userid') !== false) {
+			} else if($uiType == self::UITYPE_SALUTATION_OR_FIRSTNAME && stripos($this->getName(), 'roundrobin_userid') !== false) {
                 $fieldDataType = 'multiowner';
 			} else {
 				$webserviceField = $this->getWebserviceFieldObject();
@@ -196,7 +266,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		if($presenceZero && is_array($referenceList) && count($referenceList) > 0) {
 			foreach($referenceList as $key => $referenceModule) {
 				$moduleModel = Vtiger_Module_Model::getInstance($referenceModule);
-				if($moduleModel && $moduleModel->get('presence') != self::PRESENCE_ALLWAYS_VISIBLE) {
+				if($moduleModel && $moduleModel->get('presence') != self::PRESENCE_ALWAYS_VISIBLE) {
 					unset($referenceList[$key]);
 				}
 			}
@@ -251,7 +321,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	}
 
 	public function isRoleBased() {
-		if($this->get('uitype') == '15' || $this->get('uitype') == '33' || ($this->get('uitype') == '55' && $this->getFieldName() == 'salutationtype')) {
+		if($this->get('uitype') == self::UITYPE_ROLE_BASED_PICKLIST || $this->get('uitype') == self::UITYPE_MULTI_SELECT || ($this->get('uitype') == SELF::UITYPE_SALUTATION_OR_FIRSTNAME && $this->getFieldName() == 'salutationtype')) {
 			return true;
 		}
 		return false;
@@ -410,7 +480,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 		$moduleModel = $this->getModule();
 		$quickCreate = $this->get('quickcreate');
 		if(($quickCreate == self::QUICKCREATE_MANDATORY || $quickCreate == self::QUICKCREATE_ENABLED
-				|| $this->isMandatory()) && $this->get('uitype') != 69) {
+				|| $this->isMandatory()) && $this->get('uitype') != self::UITYPE_IMAGE) {
 			//isQuickCreateSupported will not be there for settings
 			if(method_exists($moduleModel,'isQuickCreateSupported') && $moduleModel->isQuickCreateSupported()) {
 			return true;
@@ -436,7 +506,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 				|| !$this->isViewable()
 				|| !in_array(((int)$this->get('displaytype')), array(self::DISPLAYTYPE_ALL, self::DISPLAYTYPE_LINEITEM))
 				|| $this->isReadOnly() == true
-				|| $this->get('uitype') ==  4) {
+				|| $this->get('uitype') ==  self::UITYPE_RECORD_NO) {
 
 			return false;
 		}
@@ -448,7 +518,13 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	 * @return <Boolean>
 	 */
 	public function isAjaxEditable() {
-		$ajaxRestrictedFields = array('4', '72', '61', '27', '28');
+	    $ajaxRestrictedFields = array(
+	        self::UITYPE_RECORD_NO, 
+	        self::UITYPE_CURRENCY_AMOUNT, 
+	        self::UITYPE_ATTACHMENT, 
+	        self::UITYPE_DOWNLOAD_TYPE,
+	        self::UITYPE_FILENAME
+	    );
 		if(!$this->isEditable() || in_array($this->get('uitype'), $ajaxRestrictedFields)) {
 			return false;
 		}
@@ -1263,7 +1339,7 @@ class Vtiger_Field_Model extends Vtiger_Field {
 	
 	private static function getVisiblePresenceCodesList()
 	{
-		return array(self::PRESENCE_ALLWAYS_VISIBLE, self::PRESENCE_VISIBLE);
+		return array(self::PRESENCE_ALWAYS_VISIBLE, self::PRESENCE_VISIBLE);
 	}
 	
 	public function isMassEditable() {
